@@ -99,7 +99,7 @@ router.get('/user', verifyToken, async (req, res) => {
         username: user.username,
         username_copy: user.username,
         image_link: imageLink,
-        email:user.email
+        email: user.email
       }
     });
   } catch (err) {
@@ -166,7 +166,8 @@ router.post('/forgot-password', async (req, res) => {
     if (!user) return res.status(404).json({ error: 'Email tidak ditemukan' });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '10m' });
-    const resetLink = `http://localhost:3000/auth/reset-password/${user.id}?token=${token}`;
+    const resetLink = `http://47.129.31.225:3000/auth/reset-password/${user.id}?token=${token}`;
+
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -204,7 +205,7 @@ router.get('/reset-password/:id', (req, res) => {
 
   res.send(`
     <h2>Ganti Password</h2>
-    <form method="POST" action="/auth/reset-password/${id}?token=${token}">
+    <form method="POST" action="http://47.129.31.225:3000/auth/reset-password/${id}?token=${token}">
       <input type="password" name="newPassword" placeholder="Password Baru" required />
       <input type="password" name="retypePassword" placeholder="Ulangi Password" required />
       <button type="submit">Reset Password</button>
